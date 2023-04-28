@@ -38,19 +38,28 @@
     <div class="container mt-4">
       <h1>Products List</h1>
       <?php
+      // Select data from the table
       $sql = "SELECT * FROM products";
       $result = mysqli_query($conn, $sql);
 
-      if (mysqli_num_rows($result) > 0) {
-        echo "<table>";
-        while($row = mysqli_fetch_assoc($result)) {
-          echo "<tr><td>Name: " . $row["name"] . "</td></tr>";
+        // Create a table to display the data
+        echo "<a  href='productAdd.php' class='btn btn-success me-2 ms-auto'>Add Product</a>";
+        echo "<table class='table table-striped'>";
+        echo "<tr><th>Product ID</th><th>Product_Name</th><th>Price</th><th>Image</th><th>Actions</th></tr>";
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>";
+            echo "<td>" . $row["product_id"] . "</td>";
+            echo "<td>" . $row["product_name"] . "</td>";
+            echo "<td>" . $row["price"] . "</td>";
+            echo "<td><img src='" . $row["image"] . "' alt='" . $row["product_name"] . "'></td>";
+            echo "<td>";
+            echo "<a href='' class='btn btn-primary' >Add to Cart</a>";
+            echo "<button class='btn btn-secondary'>View Details</button>";
+            echo "</td>";
+            echo "</tr>";
         }
         echo "</table>";
-      } else {
-        echo "0 results";
-      }
-      ?>
+              ?>
       </div>
     
     <footer class="bg-light text-center mt-4 p-3">
