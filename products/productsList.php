@@ -8,18 +8,6 @@
   <body>
   <?php
   include '../dbconfig.php';
-  $sql = "SELECT * FROM products";
-  $result = mysqli_query($conn, $sql);
-
-  if (mysqli_num_rows($result) > 0) {
-    echo "<table>";
-    while($row = mysqli_fetch_assoc($result)) {
-      echo "<tr><td>Name: " . $row["name"] . "</td></tr>";
-    }
-    echo "</table>";
-  } else {
-    echo "0 results";
-  }
   ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="../home/homePage.php">Cafeteria</a>
@@ -49,6 +37,20 @@
     
     <div class="container mt-4">
       <h1>Products List</h1>
+      <?php
+      $sql = "SELECT * FROM products";
+      $result = mysqli_query($conn, $sql);
+
+      if (mysqli_num_rows($result) > 0) {
+        echo "<table>";
+        while($row = mysqli_fetch_assoc($result)) {
+          echo "<tr><td>Name: " . $row["name"] . "</td></tr>";
+        }
+        echo "</table>";
+      } else {
+        echo "0 results";
+      }
+      ?>
       </div>
     
     <footer class="bg-light text-center mt-4 p-3">
