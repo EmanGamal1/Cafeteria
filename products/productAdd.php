@@ -1,28 +1,25 @@
-
 <?php
 
     if($_GET){
-        var_dump($_GET);
+        // var_dump($_GET);
         $errors = json_decode($_GET['errors']);
 //        var_dump($errors); # object ---> casted to array
         $errors = (array) $errors;
-        var_dump($errors);
+        // var_dump($errors);
     }
 
 ?>
-
 <!DOCTYPE html>
 <html>
   <head>
     <title>Cafeteria</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
-  <body>
-  <?php
-  include '../dbconfig.php';
-  ?>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  </head>
+
+<body>
+
+     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="../home/homePage.php">Cafeteria</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -47,37 +44,41 @@
         </ul>
       </div>
     </nav>
-<div class="container">
-<h2>Add Product</h2>
-<form method="post" action="add.php">
-  <div class="form-group">
-    <label for="input1">Product_name:</label>
-    <input type="text" class="form-control" id="input1" placeholder="Enter Product_name...">
-  </div>
-  <div class="form-group">
-    <label for="input2">Price :</label>
-    <input type="number" class="form-control" id="input2" placeholder="Enter Price....">
-  </div>
-  <div class="form-group">
-  <label for="formFile" class="form-label">Image</label>
-  <div class="input-group mb-3">
-  <label class="input-group-text" for="inputGroupFile01">Upload</label>
-  <input name="file" type="file" class="form-control" id="inputGroupFile01">
-  </div>
-   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-</div>
+    
+   <h2 class='text-center'> Add product </h2>
+    <div class="container">
+    <form method="POST" class="position-absolute top-50 start-50 translate-middle" style="width:450px" action="addhandle.php" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="formGroupExampleInput">product_Name</label>
+                <input type="text" name="name" class="form-control " id="formGroupExampleInput">
+                <div class="text-danger"> <?php  if(isset($errors['name']))  echo $errors['name']; ?></div>
+            </div><br>
+            <div class="form-group">
+                <label for="formGroupExampleInput">price</label>
+                <input type="number" name="price" class="form-control" id="formGroupExampleInput">
+                <div class="text-danger"> <?php  if(isset($errors['price']))  echo $errors['price']; ?></div>
+            </div><br>
+          
+            <div class="form-group">
+                <label for="formGroupExampleInput">Image Upload</label>
+                <input type="file" name="file" class="form-control" id="formGroupExampleInput">
+                <div class="text-danger"> <?php  if(isset($errors['file']))  echo $errors['file']; ?></div>
+            </div><br>
+        <div class="col-md-12 text-center">
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="reset" class="btn btn-success">Reset</button>    
+        </div>
+          
+          </form>
+    </div>
 
-<footer class="bg-light text-center mt-4 p-3">
-      <p>&copy; Cafeteria. All rights reserved.</p>
-    </footer>
+
+ 
     
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <?php
-  mysqli_close($conn);
-  ?>
+
   </body>
 </html>
+

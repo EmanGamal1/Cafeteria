@@ -38,28 +38,33 @@
     <div class="container mt-4">
       <h1>Products List</h1>
       <?php
-      // Select data from the table
-      $sql = "SELECT * FROM products";
-      $result = mysqli_query($conn, $sql);
+// Connect to the database
+$db = connect_pdo();
 
-        // Create a table to display the data
-        echo "<a  href='productAdd.php' class='btn btn-success me-2 ms-auto'>Add Product</a>";
-        echo "<table class='table table-striped'>";
-        echo "<tr><th>Product ID</th><th>Product_Name</th><th>Price</th><th>Image</th><th>Actions</th></tr>";
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr>";
-            echo "<td>" . $row["product_id"] . "</td>";
-            echo "<td>" . $row["product_name"] . "</td>";
-            echo "<td>" . $row["price"] . "</td>";
-            echo "<td><img src='" . $row["image"] . "' alt='" . $row["product_name"] . "'></td>";
-            echo "<td>";
-            echo "<a href='' class='btn btn-primary' >Add to Cart</a>";
-            echo "<button class='btn btn-secondary'>View Details</button>";
-            echo "</td>";
-            echo "</tr>";
-        }
-        echo "</table>";
-              ?>
+// Prepare a SQL query to select all data from a table
+$sql = "SELECT * FROM products";
+$stmt = $db->prepare($sql);
+
+// Execute the query and fetch the data using fetchAll method
+$stmt->execute();
+$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Loop through the data and display it
+echo "<a  href='productAdd.php' class='btn btn-success me-2 ms-auto'>Add Product</a>";
+echo "<table class='table table-striped'>";
+echo "<tr><th>Product ID</th><th>Product_Name</th><th>Price</th><th>Image</th><th>Actions</th></tr>";
+foreach ($data as $row) {
+echo "<tr>";
+          echo "<td>" . $row["product_id"] . "</td>";
+          echo "<td>" . $row["product_Name"] . "</td>";
+          echo "<td>" . $row["price"] . "</td>";
+          echo "<td><img src='" . $row["image"] . "' alt='" . $row["product_Name"] . "'></td>";
+          $delete_url = "deletehandle.php?id={$row['product_id']}";
+          echo "<td><button onclick='confirmDelete({$row['product_id']})' class='btn btn-danger'>Delete</button></td>";
+          echo "</tr>";
+}
+echo "</table>";
+?>
       </div>
     
     <footer class="bg-light text-center mt-4 p-3">
@@ -69,8 +74,12 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <?php
-  mysqli_close($conn);
-  ?>
+    <script>
+      function confirmDelete(productId) {
+    if (confirm("Are you sure you want to delete this product?")) {
+        window.location.href = `deletehandle.php?id=${productId}`;
+           }
+         }
+    </script>
   </body>
 </html>

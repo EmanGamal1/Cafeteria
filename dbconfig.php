@@ -1,12 +1,12 @@
 <?php
-$host = "nader-mo.tech";
-$username = "php-eman";
-$password = "Aa123456";
-$database = "php-eman";
 
-$conn = mysqli_connect($host, $username, $password, $database);
+function connect_pdo(){
 
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+    $dsn = 'mysql:dbname=php-eman;host=nader-mo.tech;port=3306;'; #port number
+    $user = 'php-eman';
+    $password = 'Aa123456';
+    $db= new PDO($dsn, $user, $password);
+
+    return $db;
 }
 ?>
