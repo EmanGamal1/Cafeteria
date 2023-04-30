@@ -58,10 +58,13 @@ echo "<tr>";
           echo "<td>" . $row["product_id"] . "</td>";
           echo "<td>" . $row["product_Name"] . "</td>";
           echo "<td>" . $row["price"] . "</td>";
-          echo "<td><img src='" . $row["image"] . "' alt='" . $row["product_Name"] . "'></td>";
-          $delete_url = "deletehandle.php?id={$row['product_id']}";
-          echo "<td><button onclick='confirmDelete({$row['product_id']})' class='btn btn-danger'>Delete</button></td>";
-          echo "</tr>";
+          echo "<td><img src='../images/{$row['image']}' alt='Product Image' width='100'></td>";
+          $edit_url="productUpdate.php?id={$row['product_id']}&errors=";
+          echo "<td>
+          <button onclick='confirmDelete({$row['product_id']})' class='btn btn-danger'>Delete</button>
+          <a  href='"."{$edit_url}' class='btn btn-success'>Edit</a>
+          </td>";
+echo "</tr>";
 }
 echo "</table>";
 ?>
