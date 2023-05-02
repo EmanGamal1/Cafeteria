@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:mysql://nader-mo.tech:3306/php-eman</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="php-eman@nader-moe.tech" uuid="4c88dd63-cb2e-4998-8862-e8eae366f9b8">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://nader-moe.tech:3306/php-eman</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
