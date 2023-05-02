@@ -47,29 +47,36 @@
     
    <h2 class='text-center'> Add product </h2>
     <div class="container">
-    <form method="POST" class="position-absolute top-50 start-50 translate-middle" style="width:450px" action="addhandle.php" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="formGroupExampleInput">product_Name</label>
-                <input type="text" name="name" class="form-control " id="formGroupExampleInput">
-                <div class="text-danger"> <?php  if(isset($errors['name']))  echo $errors['name']; ?></div>
-            </div><br>
-            <div class="form-group">
-                <label for="formGroupExampleInput">price</label>
-                <input type="number" name="price" class="form-control" id="formGroupExampleInput">
-                <div class="text-danger"> <?php  if(isset($errors['price']))  echo $errors['price']; ?></div>
-            </div><br>
-          
-            <div class="form-group">
-                <label for="formGroupExampleInput">Image Upload</label>
-                <input type="file" name="file" class="form-control" id="formGroupExampleInput">
-                <div class="text-danger"> <?php  if(isset($errors['file']))  echo $errors['file']; ?></div>
-            </div><br>
-        <div class="col-md-12 text-center">
-              <button type="submit" class="btn btn-primary">Submit</button>
-              <button type="reset" class="btn btn-success">Reset</button>    
-        </div>
-          
-          </form>
+    <form method="POST"  action="addhandle.php" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="formGroupExampleInput">Product Name:</label>
+        <input type="text" name="name" class="form-control" id="formGroupExampleInput">
+        <div class="text-danger"><?php if(isset($errors['name'])) echo $errors['name']; ?></div>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="formGroupExampleInput">Price:</label>
+        <input type="number" name="price" class="form-control" id="formGroupExampleInput">
+        <div class="text-danger"><?php if(isset($errors['price'])) echo $errors['price']; ?></div>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="formGroupExampleInput">Image Upload:</label>
+        <input type="file" name="file" class="form-control-file" id="formGroupExampleInput">
+        <div class="text-danger"><?php if(isset($errors['file'])) echo $errors['file']; ?></div>
+    </div>
+    <div class="form-group">
+        <label for="formGroupExampleInput">Amount:</label>
+        <input type="number" name="Amount" class="form-control" id="formGroupExampleInput">
+        <div class="text-danger"><?php if(isset($errors['Amount'])) echo $errors['Amount']; ?></div>
+    </div>
+    <br>
+    <div class="col-md-12 text-center">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="reset" class="btn btn-success">Reset</button>    
+    </div>
+</form>
+
     </div>
 
 

@@ -82,7 +82,7 @@ include '../dbconfig.php';
       
         echo "<div class='form-group'>
                 <label for='image'>Image:</label>
-                <input type='file' name='image' id='image' class='form-control' required>
+                <input type='file' name='image' id='image' class='form-control' value='{$product['image']}'  required>
             </div>";
       }}
         echo "<button type='submit' class='btn btn-primary'>Update Product</button>";

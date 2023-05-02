@@ -52,14 +52,19 @@ $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Loop through the data and display it
 echo "<a  href='productAdd.php' class='btn btn-success me-2 ms-auto'>Add Product</a>";
 echo "<table class='table table-striped'>";
-echo "<tr><th>Product ID</th><th>Product_Name</th><th>Price</th><th>Image</th><th>Actions</th></tr>";
+echo "<tr><th>Product ID</th><th>Product_Name</th><th>Price</th><th>Image</th><th></th><th>Actions</th></tr>";
 foreach ($data as $row) {
 echo "<tr>";
           echo "<td>" . $row["product_id"] . "</td>";
           echo "<td>" . $row["product_Name"] . "</td>";
           echo "<td>" . $row["price"] . "</td>";
-          echo "<td><img src='../images/{$row['image']}' alt='Product Image' width='100'></td>";
+          echo "<td><img src='../images/products/{$row['image']}' alt='Product Image' width='100'></td>";
           $edit_url="productUpdate.php?id={$row['product_id']}&errors=";
+          if ($row["Amount"] > 0) {
+            echo "<td><h6 class='alert alert-primary' style='width: fit-content;'>Available <span class='badge badge-light'>{$row["Amount"]} </span></h6></td>";
+          } else {
+            echo "<td><h6 class='alert alert-primary' style='width: fit-content;'>Not Available <span class='badge badge-light'>{$row["Amount"]} </span></h6></td>";
+          }
           echo "<td>
           <button onclick='confirmDelete({$row['product_id']})' class='btn btn-danger'>Delete</button>
           <a  href='"."{$edit_url}' class='btn btn-success'>Edit</a>

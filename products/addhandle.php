@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $product_name = $_POST['name'];
     $price = $_POST['price'];
+    $Amount = $_POST['Amount'];
     $file_name = $_FILES['file']['name'];
     $file_size = $_FILES['file']['size'];
     $file_tmp = $_FILES['file']['tmp_name'];
@@ -19,6 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if (!isset($price) or empty($price)) {
         $errors['price'] = 'Price is required';
+    }
+    if (!isset($Amount) or empty($Amount)) {
+        $errors['Amount'] = 'Amount is required';
     }
     if (empty($file_name)) {
         $errors['file'] = 'Image is required';
@@ -48,9 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // If the product already exists, show an error message
         echo "Product already exists";
     } else {
-        $stmt = $db->prepare("INSERT INTO products (product_Name, price, image) VALUES (?, ?, ?)");
-        $stmt->execute(array($product_name, $price, $file_name));
-        move_uploaded_file($file_tmp, "../images/{$file_name}");
+        $stmt = $db->prepare("INSERT INTO products (product_Name, price, image,Amount) VALUES (?, ?, ?,?)");
+        $stmt->execute(array($product_name, $price, $file_name,$Amount));
+        move_uploaded_file($file_tmp, "../images/products/{$file_name}");
         header("Location: productsList.php");
         exit;
     } 

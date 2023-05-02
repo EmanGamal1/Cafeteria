@@ -24,7 +24,7 @@ if (!empty($image['name'])) {
   $filename = uniqid() . ".$ext";
 
   // Set the path where the file will be uploaded
-  $path = '../images/' . $filename;
+  $path = '../images/products' . $filename;
 
   // Upload the file to the server
   move_uploaded_file($image['tmp_name'], $path);
