@@ -83,7 +83,7 @@
                   ?>
 
             <hr>
-            <p class="text-right">EGP <span id="totalPrice">0.00</span></p>
+
             <input type="hidden" id="productIDs" name="productIDs">
             <input type="hidden" name="product_quantity[]">
 
