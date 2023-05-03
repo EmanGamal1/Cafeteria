@@ -1,11 +1,13 @@
 <?php
-include '../dbconfig.php';
+require_once '../dbconfig.php';
 $db=connect_pdo();
-// Start a session to store user information
+
+// Start a session to store user information and generate a token
 session_start();
+$token = bin2hex(random_bytes(32));
+$_SESSION['token'] = $token;
 
 // Connect to the database using PDO
-
 
 // Handle form submission
 if (isset($_POST['login'])) {
@@ -38,11 +40,7 @@ if (isset($_POST['login'])) {
             $_SESSION['user'] = $user;
 
             // Redirect the user to their dashboard
-            if ($user['role'] == 'admin') {
-                header('location: ../home/homePage.php');
-            } else {
-                header('location: ../home/home.php');
-            }
+            header('location: ../home/homePage.php');
         } else {
             // Display an error message
             $errors[] = "Invalid email or password";

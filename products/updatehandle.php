@@ -1,7 +1,7 @@
 <?php
 
 // Connect to database
-include '../dbconfig.php';
+require_once '../dbconfig.php';
 
 $db =connect_pdo() ;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

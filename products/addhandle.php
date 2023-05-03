@@ -1,5 +1,5 @@
 <?php
-include '../dbconfig.php';
+require_once '../dbconfig.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ini_set('display_errors', 1);

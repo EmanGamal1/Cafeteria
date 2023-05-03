@@ -1,5 +1,5 @@
 <?php
-include  '../dbconfig.php';
+require_once  '../dbconfig.php';
    $db = connect_pdo();
 
      $product_id =  $_GET['id'];

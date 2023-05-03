@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
-include 'dbconfig.php';
+require_once 'dbconfig.php';
 
 require_once 'PHPMailer-master/src/PHPMailer.php';
 require_once 'PHPMailer-master/src/SMTP.php';

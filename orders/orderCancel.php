@@ -1,5 +1,5 @@
 <?php
-include '../dbconfig.php';
+require_once '../dbconfig.php';
 $pdo = connect_pdo();
 
 // Retrieve the record ID from the form data
