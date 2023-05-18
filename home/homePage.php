@@ -109,8 +109,8 @@ require_once '../footer.html';
         document.getElementById('productIDs').value = JSON.stringify(productIDs);
         console.log(productIDs);
 
-        let productNameText = productName[i-1].innerText;
-        let price = parseFloat(priceOfProduct[i-1].innerText);
+        let productNameText = productName[i-2].innerText;
+        let price = parseFloat(priceOfProduct[i-2].innerText);
 
         if (productNameCounts[productNameText]) {
           productNameCounts[productNameText]++;
@@ -172,7 +172,7 @@ require_once '../footer.html';
 
           let deleteButton = document.createElement('button');
           deleteButton.textContent = 'X';
-          deleteButton.classList.add('btn', 'btn-sm', 'btn-danger', 'mx-1', 'float-right');
+          deleteButton.classList.add('btn', 'btn-sm', 'btn-danger', 'float-right');
           deleteButton.addEventListener('click', function() {
             delete productNameCounts[productNameText];
             p.remove();
@@ -183,7 +183,6 @@ require_once '../footer.html';
           p.appendChild(countSpan);
           p.appendChild(plusButton);
           p.appendChild(minusButton);
-          p.appendChild(product_price);
           p.appendChild(deleteButton);
           addedOrders.appendChild(p);
         }
