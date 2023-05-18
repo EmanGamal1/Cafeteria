@@ -4,7 +4,7 @@ $db=connect_pdo();
 
 // Start a session to store user information and generate a token
 session_start();
-$token = bin2hex(random_bytes(32));
+$token = bin2hex(openssl_random_pseudo_bytes(16));
 $_SESSION['token'] = $token;
 
 // Connect to the database using PDO
@@ -37,10 +37,14 @@ if (isset($_POST['login'])) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Store the user's information in the session
-            $_SESSION['user'] = $user;
+            $_SESSION['user_id'] = $user['id'];
 
             // Redirect the user to their dashboard
             header('location: ../home/homePage.php');
+            exit();
+
+            // Redirect the user to their dashboard
+
         } else {
             // Display an error message
             $errors[] = "Invalid email or password";
