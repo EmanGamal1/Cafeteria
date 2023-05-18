@@ -41,7 +41,7 @@ $sql = "SELECT * FROM products";
 $stmt = $pdo->query($sql);
 
 if ($stmt->rowCount() > 0) {
-    echo '<h4 class="text-center" style="display: flex; align-items: center;"><hr style="flex: 1;"><span class="mx-5"> Latest Order </span><hr style="flex: 1;"></h4><br>';
+    echo '<h4 class="text-center" style="display: flex; align-items: center;"><hr style="flex: 1;"><span class="mx-5"> Products </span><hr style="flex: 1;"></h4><br>';
     echo '<div class="row">';
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         echo '<div class="col-md-3 mb-3">';
@@ -50,7 +50,7 @@ if ($stmt->rowCount() > 0) {
         $product_Name = "product_Name";
         $product_id = "product_id";
         echo '<br>' . '<p class="product-name">' . $row["{$product_Name}"] . '</p>';
-        echo '<p class="price">' . $row["price"] . '<span> EGP</span>' . '</p>';
+        echo '<p>' . '<span class="price">' . $row["price"] .'</span>' . '<span> EGP</span>' . '</p>';
         echo '</div></div>';
         echo '<div id="added-product-name"></div>';
     }
