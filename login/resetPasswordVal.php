@@ -19,7 +19,7 @@ if (isset($_POST['reset'])) {
     $token = bin2hex(openssl_random_pseudo_bytes(32));
 
     // Save the token to the database
-    $stmt = $db->prepare("UPDATE users SET reset_token = :token WHERE email = :email");
+    $stmt = $db->prepare("UPDATE password_reset_tokens SET token = :token WHERE email = :email");
     $stmt->bindParam(':token', $token);
     $stmt->bindParam(':email', $email);
     $stmt->execute();
@@ -42,7 +42,7 @@ if (isset($_POST['reset'])) {
     $mail->Body = 'Dear user,<br><br>'
         . 'We have received a request to reset your password. If you did not make this request, please ignore this email. '
         . 'Otherwise, please click the following link to reset your password:<br><br>'
-        . '<a href="newPass.php' . $email . '&token=' . $token . '">Reset Password</a><br><br>'
+        . '<a href="http://localhost/php/Cafeteria/Cafeteria/login/newPass.php' . $email . '&token=' . $token . '">Reset Password</a><br><br>'
         . 'Thank you,<br>'
         . 'Example.com';
 
