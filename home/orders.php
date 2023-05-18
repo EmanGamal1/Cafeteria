@@ -1,17 +1,24 @@
 <?php
 require_once './home.php';
+session_start();
 
 $pdo = connect_pdo();
+
 $stmt = $pdo->query("SELECT * FROM orders ORDER BY order_id DESC LIMIT 1");
 $order = $stmt->fetch(PDO::FETCH_ASSOC);
 $stmt = $pdo->prepare("SELECT * FROM orders_items WHERE order_id = ?");
 $stmt->execute([$order['order_id']]);
 $order_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
-if ($stmt->rowCount() > 0) {
+
+// Check if the user is an admin or a regular user
+if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
+    // Show dropdown list of users
+    $stmt = $pdo->query("SELECT id, name FROM users where role='user'");
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo '<style>.users { display: flex; }</style>';
+} else {
     echo '<div class="container">';
     $order_summary = '<p></p>';
-//    if ($_SESSION['role'] == 'user') {
-//    echo '<style>.users { display: none; }</style>';
 
     echo '<h4 class="text-center" style="display: flex; align-items: center;"><hr style="flex: 1;"><span class="mx-5"> Latest Order </span><hr style="flex: 1;"></h4><br>';
     echo '<div class="row">';
@@ -27,11 +34,6 @@ if ($stmt->rowCount() > 0) {
     }
     echo $order_summary;
     echo '</div>';
-//    } else if ($_SESSION['role'] == 'admin') {
-    // Show dropdown list of users
-    $stmt = $pdo->query("SELECT id, name FROM users where role='user'");
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo '<style>.users { display: flex; }</style>';
-//    }
     echo '</div>';
 }
+?>

@@ -11,11 +11,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $room = $_POST["room"];
     $ext = 2;
     $notes = $_POST["notes"];
-//    if ($_SESSION['role'] == 'user'){
-//        $user_id = $_SESSION['user_id'];
-//    }else if ($_SESSION['role'] == 'admin'){
-    $user_id = $_POST["user-id"]; // Get user ID from dropdown list
-//    }
+    if ($_SESSION['role'] == 'user'){
+        $user_id = $_SESSION['user_id'];
+    }else if ($_SESSION['role'] == 'admin'){
+        $user_id = $_POST["user-id"]; // Get user ID from dropdown list
+    }
     $product_id = $_POST["productIDs"];
     $product_id_decoded = json_decode($product_id);
 
