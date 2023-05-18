@@ -22,10 +22,16 @@
   require_once '../header.html';
 ?>
 
+<form id="search-form">
+<!--  <input type="text" name="search" placeholder="Search products...">-->
+  <input type="text" id="search-input" name="search" class="form-control w-25 mt-5 mb-2 ml-2" placeholder="Search products...">
+  <button type="submit" class="btn btn-primary ml-2">Search</button>
+  <div></div>
+</form>
 <div class="container mt-4">
   <!--      <div class="container">-->
   <div class="row">
-    <div class="col-9">
+    <div class="col-9"  id="search-results">
       <?php
       include("home.php");
       ?>
@@ -188,6 +194,7 @@ require_once '../footer.html';
   });
 
 </script>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
