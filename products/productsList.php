@@ -50,7 +50,7 @@ $stmt->execute();
 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Loop through the data and display it
-echo "<a  href='productAdd.php' class='btn btn-success me-2 ms-auto'>Add Product</a>";
+echo "<a  href='productAdd.php' class='btn btn-success float-end'>Add Product</a>";
 echo "<table class='table table-striped'>";
 echo "<tr><th>Product ID</th><th>Product_Name</th><th>Price</th><th>Image</th><th></th><th>Actions</th></tr>";
 foreach ($data as $row) {
