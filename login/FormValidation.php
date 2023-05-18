@@ -28,8 +28,13 @@ $db=connect_pdo();
             if ($stmt->rowCount() == 1) {
                 // Start a session to store user information and generate a token
                 session_start();
-                $token = bin2hex(openssl_random_pseudo_bytes(16));
+                $token = bin2hex(openssl_random_pseudo_bytes(32));
                 $_SESSION['token'] = $token;
+                $query = "UPDATE users SET token=:token WHERE email=:email";
+                $stmt = $db->prepare($query);
+                $stmt->bindParam(':token', $token);
+                $stmt->bindParam(':email', $email);
+                $stmt->execute();
 
                 // Get the user's information from the database
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
