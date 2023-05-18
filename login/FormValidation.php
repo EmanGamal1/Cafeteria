@@ -41,6 +41,7 @@ $db=connect_pdo();
 
                 // Store the user's information in the session
                 $_SESSION['user_id'] = $user['id'];
+                $_SESSION['role'] = $user['role'];
 
                 // Redirect the user to their dashboard
                 header('location: ../home/homePage.php');

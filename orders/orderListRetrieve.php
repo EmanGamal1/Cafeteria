@@ -1,7 +1,7 @@
 <?php
 require_once '../dbconfig.php';
+session_start();
 $pdo = connect_pdo();
-
 $dateFrom = isset($_POST['date_from']) ? $_POST['date_from'] : null;
 $dateTo = isset($_POST['date_to']) ? $_POST['date_to'] : null;
 
