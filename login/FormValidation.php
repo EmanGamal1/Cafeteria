@@ -52,30 +52,17 @@ if (isset($_POST['login'])) {
             $errors[] = "Invalid email or password";
         }
     }
-}
 
-<<<<<<< HEAD
-// Include the login form
-require_once 'login.php';
-
-// Display any validation errors
-if (count($errors) > 0) {
-    echo "<div class='alert alert-danger mt-3'>";
-    echo "<h5>Error:</h5>";
-    echo "<ul class='mb-0'>";
-    foreach ($errors as $error) {
-        echo "<li>$error</li>";
-=======
     // Display any validation errors
     if (count($errors) > 0) {
-        echo "<ul>";
+        echo "<div class='alert alert-danger mt-3'>";
+        echo "<h5>Error:</h5>";
+        echo "<ul class='mb-0'>";
         foreach ($errors as $error) {
             echo "<li>$error</li>";
         }
         echo "</ul>";
->>>>>>> c99ae1fa4d4e35a70919d590d7ee12217a68dde9
+        echo "</div>";
     }
-    echo "</ul>";
-    echo "</div>";
 }
 ?>
