@@ -5,7 +5,7 @@ $pdo = connect_pdo();
 if (isset($_GET['id'])) {
     $userId = $_GET['id'];
     // Prepare the SQL query to retrieve user orders and calculate the total price for each order
-    $sql = "SELECT o.created_at, o.order_id, SUM(oi.quantity * p.price) AS total_price FROM orders o JOIN orders_items oi ON o.order_id = oi.order_id JOIN products p ON oi.product_id = p.product_id WHERE o.user_id = :user_id GROUP BY o.order_id";
+    $sql = "SELECT o.created_at, o.order_id, oi.quantity, p.price, oi.quantity * p.price AS total_price FROM orders o JOIN orders_items oi ON o.order_id = oi.order_id JOIN products p ON oi.product_id = p.product_id WHERE o.user_id = :user_id";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':user_id' => $userId]);
 
