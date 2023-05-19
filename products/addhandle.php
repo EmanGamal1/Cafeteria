@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $product_name = $_POST['name'];
     $price = $_POST['price'];
     $amount = $_POST['Amount'];
+    $catgeory=$_POST['catgeory'];
     $file_name = $_FILES['file']['name'];
     $file_size = $_FILES['file']['size'];
     $file_tmp = $_FILES['file']['tmp_name'];
@@ -50,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $db = connect_pdo();
-    $query = "SELECT * FROM products WHERE product_Name = ?";
+    $query = "SELECT * FROM products WHERE LOWER(product_Name) = LOWER(?)";
     $stmt = $db->prepare($query);
     $stmt->execute([$product_name]);
     $product = $stmt->fetch();
@@ -62,8 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: productAdd.php?errors={$form_errors}");
         exit;
     } else {
-        $stmt = $db->prepare("INSERT INTO products (product_Name, price, image, Amount) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$product_name, $price, $file_name, $amount]);
+        $stmt = $db->prepare("INSERT INTO products (product_Name, price, image, Amount,catagery_id) VALUES (?,?, ?, ?, ?)");
+        $stmt->execute([$product_name, $price, $file_name, $amount,$catgeory]);
         move_uploaded_file($file_tmp, "../images/products/{$file_name}");
         header("Location: productsList.php");
         exit;
