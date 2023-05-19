@@ -32,7 +32,7 @@ if (isset($_SESSION['token'])) {
         $product = $stmt->fetch(PDO::FETCH_ASSOC);
         $order_summary .= '<div class="col-md-3 mb-3">';
         $order_summary .= '<div class="text-center">';
-        $order_summary .= '<img width="150px" src="../images/products/' . $product["image"] . '" class="product-img" data-product-id="' . $product["product_id"] . '">';
+        $order_summary .= '<img width="150px" src="../images/products/' . $product["image"] . '" data-product-id="' . $product["product_id"] . '">';
         $order_summary .= '<p>' . $item['quantity'] . " " . $product['product_Name'] . '</p>';
         $order_summary .= '</div></div>';
     }
