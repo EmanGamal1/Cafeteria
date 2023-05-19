@@ -1,7 +1,7 @@
 <?php
 require_once '../dbconfig.php';
 
-if ($_GET) {
+if ($_GET && isset($_GET['id'])) {
   $errors = json_decode($_GET['errors']);
   $errors = (array) $errors;
 }

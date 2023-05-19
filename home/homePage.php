@@ -60,7 +60,7 @@
           <option value="5">5</option>
         </select><br>
 
-
+        <?php if ($showAddToAdmin): ?>
         <label for="user-id">Add to user:</label><br>
         <select class="form-control" name="user-id">
           <option disabled selected value="">username</option>
@@ -70,6 +70,7 @@
           }
           echo '</select>';
           ?>
+          <?php endif; ?>
 
           <hr>
 
@@ -149,7 +150,7 @@ require_once '../footer.html';
             productNameCounts[productNameText]++;
             countSpan.textContent = productNameCounts[productNameText];
             totalPrice += price;
-            document.getElementById('totalPrice').textContent = totalPrice.toFixed(2);
+            document.getElementById('totalPrice').textContent = 'Total: ' + totalPrice.toFixed(2) +' EGP';
             product_price.textContent = (productPriceText * productNameCounts[productNameText]).toFixed(2) + ' EGP'; // Update the product_price span for the specific product
           });
 
@@ -161,13 +162,13 @@ require_once '../footer.html';
               productNameCounts[productNameText]--;
               countSpan.textContent = productNameCounts[productNameText];
               totalPrice -= price;
-              document.getElementById('totalPrice').textContent = totalPrice.toFixed(2);
-              product_price.textContent = (productPriceText * productNameCounts[productNameText]).toFixed(2) + ' EGP'; // Update the product_price span for the specific product
+              document.getElementById('totalPrice').textContent = 'Total: ' + totalPrice.toFixed(2) +' EGP';
+              product_price.textContent = 'Total: ' + (productPriceText * productNameCounts[productNameText]).toFixed(2) + ' EGP'; // Update the product_price span for the specific product
             } else {
               delete productNameCounts[productNameText];
               p.remove();
               totalPrice -= price;
-              document.getElementById('totalPrice').textContent = totalPrice.toFixed(2);
+              document.getElementById('totalPrice').textContent = 'Total: ' + totalPrice.toFixed(2) + ' EGP';
             }
           });
 
