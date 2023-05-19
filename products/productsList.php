@@ -36,11 +36,23 @@
     </nav>
     
     <div class="container mt-4">
-      <h1>Products List</h1>
+    
       <?php
+
 // Connect to the database
+session_start();
 $db = connect_pdo();
 
+// Get the user's role from the database based on the session token
+if (isset($_SESSION['token'])) {
+  $stmt = $db->prepare("SELECT role FROM users WHERE token = ?");
+  $stmt->execute([$_SESSION['token']]);
+  $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  // Check if the user is an admin or a regular user
+  if ($user && $user['role'] == 'admin') {
+
+  echo "<h1>Products List</h1>";
 // Prepare a SQL query to select all data from a table
 $sql = "SELECT * FROM products";
 $stmt = $db->prepare($sql);
@@ -72,6 +84,10 @@ echo "<tr>";
 echo "</tr>";
 }
 echo "</table>";
+  }
+  elseif ($user && $user['role'] == 'user') {
+    echo " <h1>you cannot see this page</h1>";
+  }}
 ?>
       </div>
       <?php
@@ -80,7 +96,7 @@ echo "</table>";
     <footer class="bg-light text-center mt-4 p-3">
       <p>&copy; Cafeteria. All rights reserved.</p>
     </footer>
-    
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
