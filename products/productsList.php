@@ -74,7 +74,9 @@ echo "</tr>";
 echo "</table>";
 ?>
       </div>
-    
+      <?php
+        require_once '../footer.html';
+        ?>
     <footer class="bg-light text-center mt-4 p-3">
       <p>&copy; Cafeteria. All rights reserved.</p>
     </footer>
