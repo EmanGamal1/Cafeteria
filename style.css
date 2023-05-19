@@ -1,0 +1,49 @@
+*{margin: 0; padding: 0; box-sizing: border-box;}
+body {
+    background-image: url('https://templatebundle.net/templates/cafeteria-html-template/images/slide1.jpg');
+    background-size: cover;
+    width: 100%;
+    hight:auto;
+    background-position: center;
+    color: #fff; /* set text color to white */
+    height: 100vh;
+}
+.frame{
+    hight:60%;
+    border:5px solid white;
+    padding: 5%;
+    border-radius: 15px;
+    background-image:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4))
+}
+
+.form-control {
+    background-color: rgba(255,255,255,0.8); /* set input background color to slightly transparent white */
+    border: none; /* remove input border */
+    border-radius: 5px; /* remove input border radius */
+    padding: 12px;
+    margin-bottom: 20px;/* add some padding to the input */
+    color: #000; /* set input text color to black */
+}
+label {
+    color: #fff; /* set label text color to white */
+}
+a {
+    color: #fff; /* set link color to white */
+}
+.error-message {
+    background-color: #ffeeee;
+    border: 1px solid #ff0000;
+    color: #ff0000;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.error-message h5 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.error-message li {
+    margin-left: 20px;
+}
