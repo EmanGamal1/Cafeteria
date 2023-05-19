@@ -1,6 +1,23 @@
 <?php
+session_start();
 require_once '../dbconfig.php';
 $pdo = connect_pdo();
+
+// Get the user ID based on the session token
+$token = $_SESSION['token'] ?? null;
+if (!$token) {
+    // Handle case where token is not set
+    die('Login Firstly, please.');
+}
+
+$stmt = $pdo->prepare("SELECT id FROM users WHERE token = ?");
+$stmt->execute([$token]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$user) {
+    // Handle case where user is not found
+    die('User not found');
+}
+$userId = $user['id'];
 
 $dateFrom = isset($_POST['date_from']) ? $_POST['date_from'] : null;
 $dateTo = isset($_POST['date_to']) ? $_POST['date_to'] : null;
@@ -8,17 +25,18 @@ $dateTo = isset($_POST['date_to']) ? $_POST['date_to'] : null;
 $sql = "SELECT orders.*, SUM(orders_items.quantity * products.price) AS total_price 
         FROM orders 
         JOIN orders_items ON orders.order_id = orders_items.order_id 
-        JOIN products ON orders_items.product_id = products.product_id";
+        JOIN products ON orders_items.product_id = products.product_id
+        WHERE orders.user_id = :userId";
 if ($dateFrom && $dateTo) {
-    $sql .= " WHERE orders.created_at BETWEEN :dateFrom AND :dateTo";
+    $sql .= " AND orders.created_at BETWEEN :dateFrom AND :dateTo";
 }
 $sql .= " GROUP BY orders.order_id";
 
 $stmt = $pdo->prepare($sql);
 if ($dateFrom && $dateTo) {
-    $stmt->execute(['dateFrom' => $dateFrom, 'dateTo' => $dateTo]);
+    $stmt->execute(['userId' => $userId, 'dateFrom' => $dateFrom, 'dateTo' => $dateTo]);
 } else {
-    $stmt->execute();
+    $stmt->execute(['userId' => $userId]);
 }
 
 $totalPrice = 0;

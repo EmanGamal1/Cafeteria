@@ -46,7 +46,6 @@ if ($stmt->rowCount() > 0) {
     echo '</div>';
 }
 echo '<div class="container mt-4" id="noParticularUser">';
-echo 'yay';
 echo '</div>';
 echo '<div class="dev" style="display: none;" id="userOrders"></div>';
 

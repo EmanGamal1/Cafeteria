@@ -1,14 +1,16 @@
 <?php
 require '../dbconfig.php';
 $db=connect_pdo();
-
 $errors = [];
-    $user=[];
-    if($_GET && isset($_GET['errors'])){
-        $errors = json_decode($_GET['errors']);
-        $errors = (array) $errors;
-    }else{
-        $user_id = $_GET['id'];
+$Name = "";
+$email = "";
+$user=[];
+if($_GET && isset($_GET['errors'])){
+    $errors = json_decode($_GET['errors']);
+    $errors = (array) $errors;
+}else{
+$user_id=$_GET['id'];
+       
         $query = "SELECT id,name, email, room, ext, image FROM users where id = $user_id";
         $stmt=$db->prepare($query);
         $stmt->execute();
@@ -23,7 +25,7 @@ $errors = [];
             $ext=$user[4];
             $image=$user[5];
          }
-    }
+        }
 ?>
 
 <!DOCTYPE html>
@@ -44,8 +46,8 @@ require_once '../header.html';
 ?>
 
     <div class="container mt-4">
-        <form action="userUpdateValidation.php" method=" post" enctype="multipart/form-data">
-            <input type="hidden" name="id" value="<?php echo $user_id ?>">
+        <form action="userUpdateValidation.php" method="POST" enctype="multipart/form-data" >
+            <input type="hidden" name="id" value="<?php echo $id?>">
 
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Name</label>
@@ -78,9 +80,9 @@ require_once '../header.html';
                         <span class="input-group-text">Image</span>
                     </div>
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="image" name="file">
-                        <label class="custom-file-label" for="image">
-                            <?php echo $image?>
+                        <input type="file" class="custom-file-input"  name="file">
+                        <label class="custom-file-label" for="file">
+                            
                         </label>
                     </div>
                 </div>
