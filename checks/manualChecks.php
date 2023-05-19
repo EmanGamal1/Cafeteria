@@ -70,7 +70,8 @@ require_once '../header.html';
         echo '</tr>';
         echo '<tr id="details_row_' . $order['order_id'] . '" style="display: none;"><td></td><td colspan="4">';
         foreach ($products as $product) {
-            echo"<div class='d-flex justify-content-around'><img src='../images/products/{$product['image']}'alt='Product Image' width='100' ></div>";
+            echo"<div class='d-inline justify-content-around'><img src='../images/products/{$product['image']}'alt='Product Image' width='100' height='100' ></div>";
+            echo"<div class='d-inline justify-content-around'>".$product['quantity'] . ' x ' . $product['product_Name'] . ' (' . $product['price'] . ' EGP)'."</div>";
         }
         echo '<strong>Total: ' . $totalPrice . ' EGP</strong>';
         echo '</td></tr>';

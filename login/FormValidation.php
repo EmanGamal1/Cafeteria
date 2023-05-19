@@ -55,11 +55,14 @@ if (isset($_POST['login'])) {
 
     // Display any validation errors
     if (count($errors) > 0) {
-        echo "<ul>";
+        echo "<div class='alert alert-danger mt-3'>";
+        echo "<h5>Error:</h5>";
+        echo "<ul class='mb-0'>";
         foreach ($errors as $error) {
             echo "<li>$error</li>";
         }
         echo "</ul>";
+        echo "</div>";
     }
 }
 ?>
