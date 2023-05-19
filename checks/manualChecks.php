@@ -19,7 +19,12 @@ require_once '../header.html';
     <?php
     require_once '../dbconfig.php';
     $db = connect_pdo();
-
+    if (isset($_SESSION['token'])) {
+        $stmt = $db->prepare("SELECT role FROM users WHERE token = ?");
+        $stmt->execute([$_SESSION['token']]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    if ($user && $user['role'] == 'admin') {
     // Handle delivery of orders
     if (isset($_POST['deliver'])) {
         $orderId = $_POST['orderId'];
@@ -70,14 +75,15 @@ require_once '../header.html';
         echo '</tr>';
         echo '<tr id="details_row_' . $order['order_id'] . '" style="display: none;"><td></td><td colspan="4">';
         foreach ($products as $product) {
-            echo"<div class='d-flex justify-content-around'><img src='../images/products/{$product['image']}'alt='Product Image' width='100' ></div>";
+            echo"<div class='d-inline justify-content-between'><img src='../images/products/{$product['image']}'alt='Product Image' width='100' height='100' ></div>";
+            echo"<div class='d-inline justify-content-between'>".$product['quantity'] . ' x ' . $product['product_Name'] . ' (' . $product['price'] . ' EGP)'."</div>";
         }
-        echo '<strong>Total: ' . $totalPrice . ' EGP</strong>';
+        echo '<br><strong>Total: ' . $totalPrice . ' EGP</strong>';
         echo '</td></tr>';
     }
 
     echo '</table>';
-
+    }
     // Remove delivered order from list of orders
     if (isset($orderId)) {
         foreach ($orders as $key => $order) {
@@ -99,6 +105,7 @@ require_once '../header.html';
     echo '</nav>';
     ?>
 </div>
+
 
 <?php
 require_once '../footer.html';
