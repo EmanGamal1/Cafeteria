@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="">
 <head>
@@ -49,7 +50,7 @@ require_once '../header.html';
 
     foreach ($orders as $order) {
         // Retrieve order items and calculate total price
-        $sql = "SELECT oi.quantity, p.product_Name, p.price FROM orders_items oi JOIN products p ON oi.product_id = p.product_id WHERE oi.order_id = :orderId";
+        $sql = "SELECT oi.quantity, p.product_Name, p.price ,p.image FROM orders_items oi JOIN products p ON oi.product_id = p.product_id WHERE oi.order_id = :orderId";
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':orderId', $order['order_id'], PDO::PARAM_INT);
         $stmt->execute();
@@ -69,7 +70,7 @@ require_once '../header.html';
         echo '</tr>';
         echo '<tr id="details_row_' . $order['order_id'] . '" style="display: none;"><td></td><td colspan="4">';
         foreach ($products as $product) {
-            echo $product['quantity'] . ' x ' . $product['product_Name'] . ' (' . $product['price'] . ' EGP)<br>';
+            echo"<div class='d-flex justify-content-around'><img src='../images/products/{$product['image']}'alt='Product Image' width='100' ></div>";
         }
         echo '<strong>Total: ' . $totalPrice . ' EGP</strong>';
         echo '</td></tr>';

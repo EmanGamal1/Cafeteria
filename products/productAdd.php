@@ -16,7 +16,22 @@
 <?php
 require_once '../header.html';
 ?>
-    
+ <?php
+  include '../dbconfig.php';
+  ?>
+<?php
+    // Connect to the database
+$db = connect_pdo();
+
+// Prepare a SQL query to select all data from a table
+$sql = "SELECT * FROM catgeory";
+$stmt = $db->prepare($sql);
+
+// Execute the query and fetch the data using fetchAll method
+$stmt->execute();
+$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+   
    <h2 class='text-center'> Add product </h2>
     <div class="container">
     <form method="POST"  action="addhandle.php" enctype="multipart/form-data">
@@ -32,6 +47,12 @@ require_once '../header.html';
         <div class="text-danger"><?php if(isset($errors['price'])) echo $errors['price']; ?></div>
     </div>
     <br>
+    <select name="catgeory" id="catageory" class="dropdown">
+    <option value="">select catgeory</option>
+    <?php foreach($data as $row) : ?>
+        <option value="<?php echo $row['id'] ; ?>"><?php echo $row['catgeory_name'] ; ?>"</option>
+    <?php endforeach?> 
+    </select>
     <div class="form-group">
         <label for="formGroupExampleInput">Image Upload:</label>
         <input type="file" name="file" class="form-control-file" id="formGroupExampleInput">
