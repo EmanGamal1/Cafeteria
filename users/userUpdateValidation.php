@@ -2,17 +2,12 @@
 require '../dbconfig.php';
 $db=connect_pdo();
 
-
+var_dump($_FILES);
+    $id=$_POST['id'];
     $Name=$_POST['Name'];
     $email=$_POST['email'];
-    $password=$_POST['password'];
-    $confirmed=$_POST['confirm-password'];
     $room=$_POST['room'];
-    $ext=$_POST['ext'];
-    $confirm=$_POST['confirm-password'];
-
-    $date = date_create();
-    $id= date_timestamp_get($date);
+    $ext=$_POST['ext'];  
     $pattern="/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix";
     $passPattern='/^[a-z_]+[a-z_]$/';
 
@@ -31,44 +26,37 @@ $db=connect_pdo();
     }else{
     $formvalues["email"]= $email;
     }
-    if(!isset($password) or empty($password) or (!preg_match($passPattern,$password) and mb_strlen($password) != 8)){
-    $errors["password"]='Password is required';
-    }else{
-    $formvalues["password"]= $password;
-    }
-    if(!isset($room) or empty($password)){
+    
+    if(!isset($room) or empty($room)){
         $errors["room"]='Room is required';
     }else{
-        $formvalues["password"]= $password;
+        $formvalues["roomm"]= $room;
     }
     if(!isset($ext) or empty($ext)){
         $errors["ext"]='Ext is required';
     }else{
-        $formvalues["password"]= $password;
+        $formvalues["ext"]= $ext;
     }
-    if($confirmed != $password){
-        $errors["confirmed"]='Password required';
-    }else{
-        $formvalues["confirmed"]= $confirmed;
-    }
+   
     $formerrors=json_encode($errors);
 
     if($errors){
-    $redirect_url = "Location:userAdd.php?errors={$formerrors}";
+    $redirect_url = "Location:userUpdate.php?errors={$formerrors}";
     if ($formvalues){
     $oldvalues = json_encode($formvalues);
     $redirect_url .="&old={$oldvalues}" ;
     }
 
-    header($redirect_url);
+    // header($redirect_url);
 
     }
     
-    if(!$errors) {
+    if(isset($_FILES['file'])){
         $file_name = $_FILES['file']['name'];
         $file_size =$_FILES['file']['size'];
         $file_tmp =$_FILES['file']['tmp_name'];
         $file_type=$_FILES['file']['type'];
+        var_dump($file_tmp);
         ## validation on the file? ----> extension ? size ? moving to known place
         $extension = explode('.',basename($file_name));
         var_dump(end($extension));
@@ -77,20 +65,34 @@ $db=connect_pdo();
         
         if(in_array(end($extension), $allowed_extenstions)){
             echo "Valid image ";
-            $res=move_uploaded_file($file_tmp,"../images/users/{$file_name}");
-            $imagespath = "../images/users/{$file_name}";
+            // $res=move_uploaded_file($file_tmp,"../images/users/{$file_name}");
+            // $imagespath = "../images/users/{$file_name}";
+            //update image 
+            $upload_dir = "../images/users/";
+            $new_file_path = $upload_dir . basename($file_name);
+            if(move_uploaded_file($file_tmp, $new_file_path)) {
+            // file uploaded successfully, update the image field in the database
+                $query="update users set name=?, email=?, room=?,image=?, ext=? where id=?";
+                    
+                $stmt = $db->prepare($query);
+                $res=$stmt->execute([$Name, $email, $room, $new_file_path, $ext, $id]);
+
+            }else{
+                $errors['file'] = "Error uploading file";
+            }
+        } else {
+            // file is not a valid image, handle the error
+            $errors['file'] = "Invalid file type";
         }
-        
-        $query="update users set name=?, email=?, password=?,room=?,image=?, ext=? where id=?";
-             
+    } else {
+        // no new image has been uploaded, continue with updating other fields
+        $query = "UPDATE users SET name=?, email=?, room=?, ext=? WHERE id=?";
         $stmt = $db->prepare($query);
-        $res=$stmt->execute([$Name, $email, $password, $room, $id]);
-           $res=$stmt->execute([$Name, $email, $password, $room, $imagespath, $ext]);
-
-
+        $res = $stmt->execute([$Name, $email, $room, $ext, $id]);
+    }
+    
         $redirect_url = "Location:usersList.php";
         header($redirect_url);
  
-}
 
 ?>

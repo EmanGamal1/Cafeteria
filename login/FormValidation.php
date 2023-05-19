@@ -2,6 +2,7 @@
 require_once '../dbconfig.php';
 $db=connect_pdo();
 
+<<<<<<< HEAD
 $errors = array();
 
 function validateLoginForm($email, $password) {
@@ -37,6 +38,27 @@ if (isset($_POST['login'])) {
         $query = "SELECT * FROM users WHERE email=:email AND password=:password";
         $stmt = $db->prepare($query);
         // Bind the parameters and execute the query
+=======
+// Handle form submission
+if (isset($_POST['login'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Validate user input
+    $errors = array();
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Invalid email format";
+    }
+    if (empty($password)) {
+        $errors[] = "Password is required";
+    }
+
+    // Check if there are any validation errors
+    if (count($errors) == 0) {
+        // Check if the user exists in the database
+        $query = "SELECT * FROM users WHERE email=:email AND password=:password";
+        $stmt = $db->prepare($query);
+>>>>>>> cc424336fc033447866775b9c57a7202d6c99791
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':password', $password);
         $stmt->execute();
@@ -69,6 +91,7 @@ if (isset($_POST['login'])) {
         }
     }
 
+<<<<<<< HEAD
 
 
         // Include the login form
@@ -85,8 +108,15 @@ if (isset($_POST['login'])) {
             }
             echo "</ul>";
             echo "</div>";
+=======
+    // Display any validation errors
+    if (count($errors) > 0) {
+        echo "<ul>";
+        foreach ($errors as $error) {
+            echo "<li>$error</li>";
+>>>>>>> cc424336fc033447866775b9c57a7202d6c99791
         }
-
+        echo "</ul>";
+    }
 }
-
 ?>

@@ -8,28 +8,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $product_name = $_POST['name'];
     $price = $_POST['price'];
-    $Amount = $_POST['Amount'];
+    $amount = $_POST['Amount'];
     $file_name = $_FILES['file']['name'];
     $file_size = $_FILES['file']['size'];
     $file_tmp = $_FILES['file']['tmp_name'];
     $file_type = $_FILES['file']['type'];
 
-    $errors = array();
-    if (!isset($product_name) or empty($product_name)) {
+    $errors = [];
+
+    if (!isset($product_name) || empty($product_name)) {
         $errors['name'] = 'Name is required';
+    } elseif (preg_match('/\d/', $product_name)) {
+        $errors['name'] = 'Name cannot contain numbers';
     }
-    if (!isset($price) or empty($price)) {
+
+    if (!isset($price) || empty($price)) {
         $errors['price'] = 'Price is required';
     }
-    if (!isset($Amount) or empty($Amount)) {
+
+    if (!isset($amount) || empty($amount)) {
         $errors['Amount'] = 'Amount is required';
     }
+
     if (empty($file_name)) {
         $errors['file'] = 'Image is required';
     } else {
         $extension = pathinfo($file_name, PATHINFO_EXTENSION);
-        $allowed_extenstions = array('png', 'jpg', 'jpeg');
-        if (!in_array($extension, $allowed_extenstions)) {
+        $allowed_extensions = ['png', 'jpg', 'jpeg'];
+        if (!in_array($extension, $allowed_extensions)) {
             $errors['file'] = 'Invalid file extension';
         }
         if ($file_size > 1000000) {
@@ -48,14 +54,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $db->prepare($query);
     $stmt->execute([$product_name]);
     $product = $stmt->fetch();
-    if($product) {
+
+    if ($product) {
         // If the product already exists, show an error message
-        echo "Product already exists";
+        $errors['name'] = 'Product with this name already exists';
+        $form_errors = json_encode($errors);
+        header("Location: productAdd.php?errors={$form_errors}");
+        exit;
     } else {
-        $stmt = $db->prepare("INSERT INTO products (product_Name, price, image,Amount) VALUES (?, ?, ?,?)");
-        $stmt->execute(array($product_name, $price, $file_name,$Amount));
+        $stmt = $db->prepare("INSERT INTO products (product_Name, price, image, Amount) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$product_name, $price, $file_name, $amount]);
         move_uploaded_file($file_tmp, "../images/products/{$file_name}");
         header("Location: productsList.php");
         exit;
-    } 
+    }
 }
+?>
