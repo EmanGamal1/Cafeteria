@@ -1,42 +1,62 @@
 <?php
 
-// Connect to database
+// Connect to the database
 require_once '../dbconfig.php';
 
-$db =connect_pdo() ;
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+$db = connect_pdo();
 
-// Get form data
-$product_id = $_GET['id'];
-$product_name = $_POST['product_Name'];
-$price = $_POST['price'];
-$image = $_POST['image'];
+$errors = []; // Array to store validation errors
 
-// Get the new image file from the form
-$image = $_FILES['image'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // Get form data
+  $product_id = $_GET['id'];
+  $product_name = $_POST['product_Name'];
+  $price = $_POST['price'];
+  $image = $_FILES['image'];
 
-// Check if an image file has been uploaded
-if (!empty($image['name'])) {
-  // Get the file extension
-  $ext = pathinfo($image['name'], PATHINFO_EXTENSION);
+  // Validate product name
+  if (preg_match('/\d/', $product_name)) {
+    $errors['name'] = 'Name cannot contain numbers';
+  }
 
-  // Generate a unique filename
-  $filename = uniqid() . ".$ext";
+  // Validate price
+  if (!is_numeric($price) || $price <= 0) {
+    $errors['price'] = 'Price must be a positive number';
+  }
 
-  // Set the path where the file will be uploaded
-  $path = '../images/products' . $filename;
+  // Validate image file
+  if (!empty($image['name'])) {
+    $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
+    $ext = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
 
-  // Upload the file to the server
-  move_uploaded_file($image['tmp_name'], $path);
+    if (!in_array($ext, $allowed_extensions)) {
+      $errors['file'] = 'Only JPG, JPEG, PNG, and GIF files are allowed';
+    }
+  }
 
-// Update product in database
-$stmt = $db->prepare("UPDATE products SET product_Name = ?, price = ?, image = ? WHERE product_id = ?");
-$stmt->execute([$product_name, $price, $filename, $product_id]);
+  if (!empty($errors)) {
+    $form_errors = json_encode($errors);
+    header("Location: productUpdate.php?id={$product_id}&errors={$form_errors}");
+    exit();
+  }
   
-// Redirect back to product list
-header('Location: productslist.php');
-exit();
-  }}
+  // If there are no validation errors, proceed with updating the product
+
+  // Handle image upload
+  if (!empty($image['name'])) {
+    $filename = uniqid() . '.' . $ext;
+    $path = '../images/products/' . $filename;
+    move_uploaded_file($image['tmp_name'], $path);
+  }
+
+  // Update product in the database
+  $stmt = $db->prepare("UPDATE products SET product_Name = ?, price = ?, image = ? WHERE product_id = ?");
+  $stmt->execute([$product_name, $price, $filename, $product_id]);
+
+  // Redirect back to product list
+  header('Location: productslist.php');
+  exit();
+}
 ?>
 
-
+<!-- Your HTML code goes here -->

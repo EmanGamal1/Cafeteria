@@ -17,6 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = array();
     if (!isset($product_name) or empty($product_name)) {
         $errors['name'] = 'Name is required';
+    }elseif (preg_match('/\d/', $product_name)) {
+        $errors['name'] = 'Name cannot contain numbers';
     }
     if (!isset($price) or empty($price)) {
         $errors['price'] = 'Price is required';
