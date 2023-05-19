@@ -51,8 +51,8 @@ if (isset($_POST['reset'])) {
     $mail->isHTML(true);
 
     if ($mail->send()) {
-        echo 'Password reset email sent successfully.';
+        echo '<div class="alert alert-success" role="alert">Password reset email sent successfully.</div>';
     } else {
-        echo 'Error sending password reset email: ' . $mail->ErrorInfo;
+        echo '<div class="alert alert-danger" role="alert">Error sending password reset email: ' . $mail->ErrorInfo . '</div>';
     }
 }

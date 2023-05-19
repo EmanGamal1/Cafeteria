@@ -17,11 +17,13 @@ if (isset($_SESSION['token'])) {
 
     // Check if the user is an admin or a regular user
     if ($user && $user['role'] == 'admin') {
-    // Show dropdown list of users
+        $showAddToAdmin = true;
+        // Show dropdown list of users
     $stmt = $pdo->query("SELECT id, name FROM users where role='user'");
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo '<style>.users { display: flex; }</style>';
 } else if ($user && $user['role'] == 'user') {
+        $showAddToAdmin = false;
     echo '<div class="container">';
     $order_summary = '<p></p>';
     echo '<h4 class="text-center" style="display: flex; align-items: center;"><hr style="flex: 1;"><span class="mx-5"> Latest Order </span><hr style="flex: 1;"></h4><br>';
