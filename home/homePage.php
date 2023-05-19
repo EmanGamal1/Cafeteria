@@ -60,8 +60,9 @@
           <option value="5">5</option>
         </select><br>
 
+
         <label for="user-id">Add to user:</label><br>
-        <select class="form-control" name="user-id" required>
+        <select class="form-control" name="user-id">
           <option disabled selected value="">username</option>
           <?php
           foreach ($users as $user) {
@@ -109,8 +110,8 @@ require_once '../footer.html';
         document.getElementById('productIDs').value = JSON.stringify(productIDs);
         console.log(productIDs);
 
-        let productNameText = productName[i-2].innerText;
-        let price = parseFloat(priceOfProduct[i-2].innerText);
+        let productNameText = productName[i].innerText;
+        let price = parseFloat(priceOfProduct[i].innerText);
 
         if (productNameCounts[productNameText]) {
           productNameCounts[productNameText]++;

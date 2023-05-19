@@ -1,6 +1,5 @@
 <?php
 include '../dbconfig.php';
-
 $pdo = connect_pdo();
 
 require_once ("orders.php");
@@ -11,9 +10,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $room = $_POST["room"];
     $ext = 2;
     $notes = $_POST["notes"];
-    if ($_SESSION['role'] == 'user'){
-        $user_id = $_SESSION['user_id'];
-    }else if ($_SESSION['role'] == 'admin'){
+if (isset($_SESSION['token'])) {
+    $stmt = $pdo->prepare("SELECT role FROM users WHERE token = ?");
+    $stmt->execute([$_SESSION['token']]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $stmt2 = $pdo->prepare("SELECT id FROM users WHERE token = ?");
+    $stmt2->execute([$_SESSION['token']]);
+    $loggedUser = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+    // Check if the user is an admin or a regular user
+    if ($user && $user['role'] == 'user') {
+        $user_id = $loggedUser['id'];
+    }else if ($user && $user['role'] == 'admin'){
         $user_id = $_POST["user-id"]; // Get user ID from dropdown list
     }
     $product_id = $_POST["productIDs"];
@@ -44,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->execute([$order_id, $product_id, $quantity]);
         }
     }
-}
+}}
 $pdo = null;
 ?>
 
