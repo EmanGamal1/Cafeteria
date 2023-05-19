@@ -44,15 +44,15 @@ if (isset($_POST['reset'])) {
     $mail->Body = 'Dear user,<br><br>'
         . 'We have received a request to reset your password. If you did not make this request, please ignore this email. '
         . 'Otherwise, please click the following link to reset your password:<br><br>'
-        . '<a href="http://localhost/php/Cafeteria/Cafeteria/login/newPass.php?email=' . $email . '&token=' . $token . '">Reset Password</a><br><br>'
+        . '<a href="http://localhost/finall/Cafeteria/login/newPass.php?email=' . $email . '&token=' . $token . '">Reset Password</a><br><br>'
         . 'Thank you,<br>'
         . 'Example.com';
 
     $mail->isHTML(true);
 
     if ($mail->send()) {
-        echo 'Password reset email sent successfully.';
+        echo '<div class="alert alert-success" role="alert">Password reset email sent successfully.</div>';
     } else {
-        echo 'Error sending password reset email: ' . $mail->ErrorInfo;
+        echo '<div class="alert alert-danger" role="alert">Error sending password reset email: ' . $mail->ErrorInfo . '</div>';
     }
 }
